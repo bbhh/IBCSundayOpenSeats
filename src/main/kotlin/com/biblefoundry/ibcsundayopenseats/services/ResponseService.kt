@@ -54,7 +54,7 @@ class ResponseService(private val renderer: TemplateRenderer) : Logging {
         val token = request.path("token")!!
 
         // extract claims from JWS
-        val claims = JwsService.parseJws(token)?.body ?: return Response(Status.FORBIDDEN).body("Invalid or expired token")
+        val claims = JwsService.parseJws(token)?.body ?: return Response(Status.FORBIDDEN).body("Sorry, this invitation has expired.")
         val email = claims["email"].toString()
         val name = PartyStore.getName(email, "friend")
         val sundayDate = LocalDate.parse(claims["date"].toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))

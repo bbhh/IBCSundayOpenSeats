@@ -26,7 +26,6 @@ const App = () => {
       try {
         const result = await axios(`${API_BASE_URL}/responses/${token}`);
         const { name, sundayDate, partySize, attending, expirationDate } = result.data;
-        console.log('(A)', partySize);
         setName(name);
         setSundayDate(sundayDate);
         setPartySize(partySize);
@@ -49,11 +48,10 @@ const App = () => {
     const updateResponse = async () => {
       console.log(`Updating response with [partySize=${partySize} attending=${attending}]...`);
       try {
-        const result = await axios.put(`${API_BASE_URL}/responses/${token}`, {
+        await axios.put(`${API_BASE_URL}/responses/${token}`, {
           partySize,
           attending,
         });
-        console.log(result);
       } catch (error) {
         setPageState(PageState.ERROR)
         if (error.response) {
@@ -67,7 +65,6 @@ const App = () => {
   
 
   function handlePartySizeChange(partySize: number) {
-    console.log('(B)', partySize);
     setPartySize(partySize);
   }
 
@@ -112,7 +109,7 @@ const App = () => {
 
         {partySizeSlider}
 
-        <p className="mt-5 text-muted">Please make your selection, and your response will be automatically saved.</p>
+        <Alert color="success" className="mt-4">Your response is automatically saved, so there's no need to do anything else. Thanks!</Alert>
 
         {pageState === PageState.READY && (
           <p className="mt-5 text-muted">If you want make any changes to your response later, you can return to this page at any time before the deadline of <strong>{expirationDate}</strong>.</p>
