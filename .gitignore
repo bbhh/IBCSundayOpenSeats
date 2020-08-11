@@ -1,0 +1,9 @@
+.gradle
+.idea
+**/build/
+!src/**/build/
+logs/
+config.toml
+*.csv
+*.db
+*.db.bak
