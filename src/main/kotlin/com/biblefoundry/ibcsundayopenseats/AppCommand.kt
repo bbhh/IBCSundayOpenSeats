@@ -13,10 +13,8 @@ import com.github.ajalt.clikt.parameters.options.option
 import org.apache.logging.log4j.kotlin.Logging
 import org.fusesource.jansi.AnsiConsole
 import org.http4k.core.*
-import org.http4k.core.Status.Companion.OK
 import org.http4k.filter.CorsPolicy.Companion.UnsafeGlobalPermissive
 import org.http4k.filter.ServerFilters
-import org.http4k.routing.ResourceLoader.Companion.Classpath
 import org.http4k.routing.bind
 import org.http4k.routing.routes
 import org.http4k.routing.singlePageApp
@@ -78,7 +76,6 @@ class AppCommand : CliktCommand(), Logging {
             config.config[EmailSpec.from_email],
             config.config[EmailSpec.contact_name],
             config.config[EmailSpec.contact_email],
-            endDate,
             config.config[EmailSpec.dry_run_email_parties]
         )
 
@@ -86,6 +83,7 @@ class AppCommand : CliktCommand(), Logging {
         Scheduler.configure(
             startCron,
             endCron,
+            endWeekdayTime,
             config.config[EmailSpec.contact_email]
         )
         Scheduler.start()

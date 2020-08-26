@@ -10,11 +10,13 @@ import org.quartz.impl.StdSchedulerFactory
 object Scheduler : Logging {
     private var startCron = ""
     private var endCron = ""
+    private var endWeekdayTime = ""
     private var contactEmail = ""
 
-    fun configure(startCron: String, endCron: String, contactEmail: String) {
+    fun configure(startCron: String, endCron: String, endWeekdayTime: String, contactEmail: String) {
         this.startCron = startCron
         this.endCron = endCron
+        this.endWeekdayTime = endWeekdayTime
         this.contactEmail = contactEmail
     }
 
@@ -38,6 +40,7 @@ object Scheduler : Logging {
         val jobStart = newJob(StartJob::class.java)
             .withIdentity("jobStart", groupName)
             .build()
+        jobStart.jobDataMap["endWeekdayTime"] = endWeekdayTime
         jobStart.jobDataMap["contactEmail"] = contactEmail
         scheduler.scheduleJob(jobStart, triggerStart)
 

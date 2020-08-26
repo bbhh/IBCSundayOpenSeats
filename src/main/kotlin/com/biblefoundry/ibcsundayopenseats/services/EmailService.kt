@@ -34,7 +34,6 @@ object EmailService : Logging {
     private lateinit var fromEmail: String
     private lateinit var contactName: String
     private lateinit var contactEmail: String
-    private lateinit var deadline: LocalDateTime
     private var dryRunEmailParties = false
 
     fun configure(
@@ -44,7 +43,6 @@ object EmailService : Logging {
         fromEmail: String,
         contactName: String,
         contactEmail: String,
-        deadline: LocalDateTime,
         dryRunEmailParties: Boolean
     ) {
         sesClient = AmazonSimpleEmailServiceClientBuilder.standard()
@@ -56,7 +54,6 @@ object EmailService : Logging {
         this.fromEmail = fromEmail
         this.contactName = contactName
         this.contactEmail = contactEmail
-        this.deadline = deadline
         this.dryRunEmailParties = dryRunEmailParties
     }
 
@@ -80,7 +77,7 @@ object EmailService : Logging {
         return renderer(viewModel)
     }
 
-    fun emailParties(parties: List<Party>, sundayDate: LocalDate) {
+    fun emailParties(parties: List<Party>, sundayDate: LocalDate, deadline: LocalDateTime) {
         val sundayDateFormattedLong = sundayDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG))
         val sundayDateFormattedShort = sundayDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
         val subject = "You're invited to attend IBC in person this Sunday ($sundayDateFormattedShort)"
